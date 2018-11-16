@@ -1,10 +1,15 @@
 apply plugin: 'com.android.application'
-
+/*
+In Hong Kong, at least 85% of Android devices use Marshmallow (6.0) or above.
+In Singapore, at least 85% of Android devices use Marshmallow (6.0) or above.
+from: to http://gs.statcounter.com/android-version-market-share/mobile-tablet/hong-kong
+http://gs.statcounter.com/android-version-market-share/mobile-tablet/singapore
+*/
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "jpabon.com.weatherapp"
-        minSdkVersion 28
+        minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
