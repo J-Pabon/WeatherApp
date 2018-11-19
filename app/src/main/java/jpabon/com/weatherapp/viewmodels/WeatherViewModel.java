@@ -12,6 +12,8 @@ import jpabon.com.weatherapp.repository.WeatherRepository;
 
 public class WeatherViewModel extends ViewModel {
     LiveData<List<CityWeather>> cityWeather;
+    LiveData<List<CityWeather>> cityHistoric;
+
     WeatherRepository weatherRepository;
 
     public void init(Context context, List<Integer> cities)  throws IllegalAccessException, InstantiationException, UnsupportedEncodingException {
@@ -20,9 +22,22 @@ public class WeatherViewModel extends ViewModel {
         }
 
         cityWeather = weatherRepository.getWeatherForCities(cities);
+        ReloadCityHistoric(cities.get(0));
+    }
+
+    public void ReloadCityHistoric(int id) {
+        cityHistoric = weatherRepository.getHistoricForCity(id);
     }
 
     public LiveData<List<CityWeather>> getCityWeather() {
         return cityWeather;
+    }
+
+    public LiveData<List<CityWeather>> getCityHistoric() {
+        return cityHistoric;
+    }
+
+    public void setCityHistoric(LiveData<List<CityWeather>> cityHistoric) {
+        this.cityHistoric = cityHistoric;
     }
 }
