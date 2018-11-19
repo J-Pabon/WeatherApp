@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+    <string name="history_label">City</string>
+    <string-array name="cities_filter">
+        <item>Hong Kong SAR</item>
+        <item>Singapore</item>
+    </string-array>
 </resources>
