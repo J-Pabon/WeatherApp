@@ -1,18 +1,29 @@
 package jpabon.com.weatherapp;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 import jpabon.com.weatherapp.entities.CityWeather;
+import jpabon.com.weatherapp.intents.UpdateIntent;
 import jpabon.com.weatherapp.viewmodels.WeatherViewModel;
 
 public class MainActivity extends AppCompatActivity {
+
     //OpenWeatherMap cities id: HK=1819730; SG=1880252
     private static final int HK_ID = 1819730;
     private static final int SG_ID = 1880252;
@@ -42,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         });
         
         SetHistoricFragment();
+
+        SetUpdateTimer();
     }
 
     private void SetHistoricFragment() {
@@ -75,5 +88,35 @@ public class MainActivity extends AppCompatActivity {
                     .replace(containerId, fragment)
                     .commit();
         }
+    }
+
+    private void SetUpdateTimer() {
+        long delay = 30000;
+        long periodToRepeat = 20000;//60 * 2000; /* 1 mint */
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            viewModel.ReloadCityWeather(Arrays.asList(new Integer[]{HK_ID, SG_ID}));
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        } catch (InstantiationException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }, 3000, 3000);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 }
