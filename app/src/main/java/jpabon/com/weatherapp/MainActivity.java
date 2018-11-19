@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void SetUpdateTimer() {
         long delay = 30000;
-        long periodToRepeat = 20000;//60 * 2000; /* 1 mint */
+        long periodToRepeat = 60 * 2000;
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 3000, 3000);
+        }, delay, periodToRepeat);
     }
 
     @Override
