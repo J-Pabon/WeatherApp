@@ -34,11 +34,23 @@ public class MainActivity extends AppCompatActivity {
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
+
         viewModel.getCityWeather().observe(this, weather -> {
             if (weather != null) {
                 UpdateFragments(weather);
             }
         });
+        
+        SetHistoricFragment();
+    }
+
+    private void SetHistoricFragment() {
+        FragmentHistory fragment = new FragmentHistory();
+
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction()
+                .replace(R.id.history_container, fragment)
+                .commit();
     }
 
     private void UpdateFragments(List<CityWeather> weather) {
