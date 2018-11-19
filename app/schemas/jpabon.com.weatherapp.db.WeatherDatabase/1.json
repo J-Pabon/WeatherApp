@@ -2,12 +2,18 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4cd30526cd933d5db2b87554239b400f",
+    "identityHash": "e40546833b79d5698f505b215ed141a6",
     "entities": [
       {
         "tableName": "CityWeather",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `weatherId` INTEGER NOT NULL, `main` TEXT, `description` TEXT, `icon` TEXT, `humidity` REAL NOT NULL, `pressure` REAL NOT NULL, `temp_max` REAL NOT NULL, `temp_min` REAL NOT NULL, `temp` REAL NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cityWeatherId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` INTEGER NOT NULL, `name` TEXT, `weatherId` INTEGER NOT NULL, `main` TEXT, `description` TEXT, `icon` TEXT, `humidity` REAL NOT NULL, `pressure` REAL NOT NULL, `temp_max` REAL NOT NULL, `temp_min` REAL NOT NULL, `temp` REAL NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "cityWeatherId",
+            "columnName": "cityWeatherId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "id",
             "columnName": "id",
@@ -77,9 +83,9 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "cityWeatherId"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
@@ -88,7 +94,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"4cd30526cd933d5db2b87554239b400f\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e40546833b79d5698f505b215ed141a6\")"
     ]
   }
 }
