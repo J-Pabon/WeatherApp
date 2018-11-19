@@ -7,10 +7,12 @@ import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 import jpabon.com.weatherapp.api.Details;
+import jpabon.com.weatherapp.async.CustomAsyncTask;
 import jpabon.com.weatherapp.db.WeatherDatabase;
 import jpabon.com.weatherapp.entities.CityWeather;
 import jpabon.com.weatherapp.helpers.StringHelper;
@@ -37,7 +39,25 @@ public class WeatherRepository {
         String encodedIds = StringHelper.EncodeArrayOfIntegers(cities);
         RefreshWeather(encodedIds);
 
-        return db.weatherDao().load(cities);
+        return getDb().weatherDao().load(cities);
+    }
+
+    public LiveData<List<CityWeather>> getHistoricForCity(int id) {
+        CustomAsyncTask customAsync = new CustomAsyncTask(output -> {
+
+        });
+
+        LiveData<List<CityWeather>> data = null;
+
+        try {
+            data = customAsync.execute(this, id, null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return data;
     }
 
     public void RefreshWeather(final String cities) throws IllegalAccessException, InstantiationException {
@@ -53,12 +73,12 @@ public class WeatherRepository {
                         List<Details> details = response.body().getList();
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             details.forEach(details1 -> {
-                                db.weatherDao().save(details1.ExtractCityWeather());
+                                getDb().weatherDao().save(details1.ExtractCityWeather());
                             });
                         }
                         else {
                             for (Details detail : details) {
-                                db.weatherDao().save(detail.ExtractCityWeather());
+                                getDb().weatherDao().save(detail.ExtractCityWeather());
                             }
                         }
                         return null;
@@ -71,5 +91,9 @@ public class WeatherRepository {
                 Toast.makeText(context, "Error", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public WeatherDatabase getDb() {
+        return db;
     }
 }
