@@ -1,15 +1,8 @@
 package jpabon.com.weatherapp;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
@@ -19,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 import jpabon.com.weatherapp.entities.CityWeather;
-import jpabon.com.weatherapp.intents.UpdateIntent;
 import jpabon.com.weatherapp.viewmodels.WeatherViewModel;
 
 public class MainActivity extends AppCompatActivity {
