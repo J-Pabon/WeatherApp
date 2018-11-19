@@ -5,4 +5,7 @@
         <item>Hong Kong SAR</item>
         <item>Singapore</item>
     </string-array>
+    <string name="temperature">Temperature</string>
+    <string name="humidity">Humidity</string>
+    <string name="load_past_info">Load past 5 registers</string>
 </resources>

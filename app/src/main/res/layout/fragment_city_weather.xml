@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraint_city"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -30,12 +31,30 @@
         app:layout_constraintTop_toBottomOf="@+id/city_name" />
 
     <TextView
+        android:id="@+id/temperature_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/temperature"
+        app:layout_constraintStart_toEndOf="@+id/weather_icon"
+        app:layout_constraintTop_toTopOf="@+id/weather_icon" />
+
+    <TextView
         android:id="@+id/temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toEndOf="@+id/weather_icon"
-        app:layout_constraintTop_toTopOf="@+id/weather_icon" />
+        app:layout_constraintTop_toBottomOf="@+id/temperature_label" />
+
+    <TextView
+        android:id="@+id/humidity_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/humidity"
+        app:layout_constraintStart_toEndOf="@+id/weather_icon"
+        app:layout_constraintTop_toBottomOf="@+id/temperature" />
 
     <TextView
         android:id="@+id/humidity"
@@ -45,6 +64,6 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/weather_icon"
         app:layout_constraintStart_toEndOf="@+id/weather_icon"
-        app:layout_constraintTop_toBottomOf="@+id/temperature" />
+        app:layout_constraintTop_toBottomOf="@+id/humidity_label" />
 
 </android.support.constraint.ConstraintLayout>
