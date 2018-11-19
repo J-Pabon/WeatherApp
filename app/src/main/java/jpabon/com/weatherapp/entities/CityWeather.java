@@ -8,7 +8,9 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class CityWeather implements Parcelable {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    private int cityWeatherId;
+
     private int id;
     private String name;
 
@@ -40,6 +42,7 @@ public class CityWeather implements Parcelable {
     }
 
     protected CityWeather(Parcel in) {
+        cityWeatherId = in.readInt();
         id = in.readInt();
         name = in.readString();
         weatherId = in.readInt();
@@ -67,6 +70,14 @@ public class CityWeather implements Parcelable {
 
     public int getId() {
         return id;
+    }
+
+    public int getCityWeatherId() {
+        return cityWeatherId;
+    }
+
+    public void setCityWeatherId(int cityWeatherId) {
+        this.cityWeatherId = cityWeatherId;
     }
 
     public void setId(int id) {
@@ -160,6 +171,7 @@ public class CityWeather implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(cityWeatherId);
         dest.writeInt(id);
         dest.writeString(name);
         dest.writeInt(weatherId);
