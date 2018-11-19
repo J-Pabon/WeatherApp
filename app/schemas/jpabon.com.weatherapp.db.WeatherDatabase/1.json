@@ -1,0 +1,94 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "4cd30526cd933d5db2b87554239b400f",
+    "entities": [
+      {
+        "tableName": "CityWeather",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `weatherId` INTEGER NOT NULL, `main` TEXT, `description` TEXT, `icon` TEXT, `humidity` REAL NOT NULL, `pressure` REAL NOT NULL, `temp_max` REAL NOT NULL, `temp_min` REAL NOT NULL, `temp` REAL NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "weatherId",
+            "columnName": "weatherId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "main",
+            "columnName": "main",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "icon",
+            "columnName": "icon",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "humidity",
+            "columnName": "humidity",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pressure",
+            "columnName": "pressure",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "temp_max",
+            "columnName": "temp_max",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "temp_min",
+            "columnName": "temp_min",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "temp",
+            "columnName": "temp",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"4cd30526cd933d5db2b87554239b400f\")"
+    ]
+  }
+}
