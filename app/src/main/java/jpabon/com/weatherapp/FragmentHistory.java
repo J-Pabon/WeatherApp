@@ -36,7 +36,13 @@ public class FragmentHistory extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 WeatherViewModel viewmodel = ViewModelProviders.of(getActivity()).get(WeatherViewModel.class);
-                viewmodel.ReloadCityHistoric(viewmodel.getCityWeather().getValue().get(position).getId());
+
+                if (viewmodel.getCityWeather().getValue() == null)
+                    return;
+
+                if (!viewmodel.getCityWeather().getValue().isEmpty()){
+                    viewmodel.ReloadCityHistoric(viewmodel.getCityWeather().getValue().get(position).getId());
+                }
             }
 
             @Override
