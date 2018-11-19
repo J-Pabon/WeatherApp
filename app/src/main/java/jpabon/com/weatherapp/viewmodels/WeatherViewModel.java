@@ -16,13 +16,17 @@ public class WeatherViewModel extends ViewModel {
 
     WeatherRepository weatherRepository;
 
-    public void init(Context context, List<Integer> cities)  throws IllegalAccessException, InstantiationException, UnsupportedEncodingException {
+    public void init(Context context, List<Integer> cities) throws IllegalAccessException, UnsupportedEncodingException, InstantiationException {
         if (weatherRepository == null) {
             weatherRepository = new WeatherRepository(context);
         }
 
-        cityWeather = weatherRepository.getWeatherForCities(cities);
+        ReloadCityWeather(cities);
         ReloadCityHistoric(cities.get(0));
+    }
+
+    public void ReloadCityWeather(List<Integer> cities) throws IllegalAccessException, UnsupportedEncodingException, InstantiationException {
+        cityWeather = weatherRepository.getWeatherForCities(cities);
     }
 
     public void ReloadCityHistoric(int id) {
