@@ -1,5 +1,6 @@
 package jpabon.com.weatherapp.daos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -17,4 +18,7 @@ public interface WeatherDao {
 
     @Query("SELECT * FROM CityWeather WHERE id IN (:city_ids)")
     LiveData<List<CityWeather>> load(List<Integer> city_ids);
+
+    @Query("SELECT * FROM CityWeather WHERE id = :id LIMIT 5")
+    LiveData<List<CityWeather>> load_historic(int id);
 }
