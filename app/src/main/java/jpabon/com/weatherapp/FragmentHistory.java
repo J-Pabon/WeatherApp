@@ -21,7 +21,7 @@ import jpabon.com.weatherapp.adapters.HistoricRecyclerViewAdapter;
 import jpabon.com.weatherapp.entities.CityWeather;
 import jpabon.com.weatherapp.viewmodels.WeatherViewModel;
 
-public class FragmentHistory extends Fragment {
+public class FragmentHistory extends Fragment implements AdapterView.OnItemSelectedListener {
     Spinner cityFilter;
     RecyclerView historyRecycler;
 
@@ -31,25 +31,7 @@ public class FragmentHistory extends Fragment {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
 
         cityFilter = view.findViewById(R.id.city_filter);
-        cityFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                WeatherViewModel viewmodel = ViewModelProviders.of(getActivity()).get(WeatherViewModel.class);
-
-                if (viewmodel.getCityWeather().getValue() == null)
-                    return;
-
-                if (!viewmodel.getCityWeather().getValue().isEmpty()){
-                    viewmodel.ReloadCityHistoric(viewmodel.getCityWeather().getValue().get(position).getId());
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        cityFilter.setOnItemSelectedListener(this);
 
         historyRecycler = view.findViewById(R.id.history_recycler);
 
@@ -82,5 +64,32 @@ public class FragmentHistory extends Fragment {
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL);
         historyRecycler.addItemDecoration(dividerItemDecoration);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        WeatherViewModel viewmodel = ViewModelProviders.of(getActivity()).get(WeatherViewModel.class);
+
+        if (viewmodel.getCityWeather().getValue() == null)
+            return;
+
+        String cityName = parent.getItemAtPosition(position).toString();
+
+        int cityId = 0;
+        for (CityWeather weather: viewmodel.getCityWeather().getValue()) {
+            if (weather.getName().equals(cityName)) {
+                cityId = weather.getId();
+                break;
+            }
+        }
+
+        if (cityId > 0) {
+            viewmodel.ReloadCityHistoric(cityId);
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
