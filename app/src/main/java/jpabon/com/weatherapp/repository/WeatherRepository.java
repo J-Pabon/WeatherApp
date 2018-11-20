@@ -23,7 +23,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class WeatherRepository {
-    private static final String DB_NAME = "db_user";
+    private static final String DB_NAME = "db_weather";
+
     private WeatherDatabase db;
     private OpenWeatherMapWebservice webservice;
     private Context context;
@@ -35,19 +36,18 @@ public class WeatherRepository {
         this.context = context;
     }
 
-    public LiveData<java.util.List<CityWeather>> getWeatherForCities(java.util.List<Integer> cities) throws IllegalAccessException, InstantiationException, UnsupportedEncodingException {
+    public LiveData<java.util.List<CityWeather>> getWeatherForCities(java.util.List<Integer> cities,
+                                                                     String units,
+                                                                     String api_id) throws IllegalAccessException, InstantiationException, UnsupportedEncodingException {
         String encodedIds = StringHelper.EncodeArrayOfIntegers(cities);
-        RefreshWeather(encodedIds);
+        RefreshWeather(encodedIds, units, api_id);
 
         return getDb().weatherDao().load(cities);
     }
 
-    public LiveData<List<CityWeather>> getHistoricForCity(int id) {
-        CustomAsyncTask customAsync = new CustomAsyncTask(output -> {
-
-        });
-
-        LiveData<List<CityWeather>> data = null;
+    public List<CityWeather> getHistoricForCity(int id) {
+        CustomAsyncTask customAsync = new CustomAsyncTask();
+        List<CityWeather> data = null;
 
         try {
             data = customAsync.execute(this, id, null).get();
@@ -60,8 +60,8 @@ public class WeatherRepository {
         return data;
     }
 
-    public void RefreshWeather(final String cities) throws IllegalAccessException, InstantiationException {
-        Call<jpabon.com.weatherapp.api.Response<java.util.List<Details>>> call = webservice.getWeather(cities, "metric", "23d55f60ea93aa49fef603b8a64f1048");
+    public void RefreshWeather(final String cities, final String units, final String api_id) {
+        Call<jpabon.com.weatherapp.api.Response<java.util.List<Details>>> call = webservice.getWeather(cities, units, api_id);
 
         call.enqueue(new Callback<jpabon.com.weatherapp.api.Response<java.util.List<Details>>>() {
             @Override
