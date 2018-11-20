@@ -1,12 +1,17 @@
 package jpabon.com.weatherapp;
 
 import android.os.Bundle;
+import android.os.Debug;
+import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -20,6 +25,11 @@ public class MainActivity extends AppCompatActivity {
     private static final int HK_ID = 1819730;
     private static final int SG_ID = 1880252;
 
+    public static final String UNITS = "metric";
+    public static final String API_ID = "23d55f60ea93aa49fef603b8a64f1048";
+    
+    public static final int DELAY_UPDATE_IN_MILLISECONDS = 60 * 1000;
+
     private WeatherViewModel viewModel;
 
     @Override
@@ -29,7 +39,10 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel = ViewModelProviders.of(this).get(WeatherViewModel.class);
         try {
-            viewModel.init(getApplicationContext(), Arrays.asList(new Integer[]{HK_ID, SG_ID}));
+            viewModel.init(getApplicationContext(),
+                    Arrays.asList(new Integer[]{HK_ID, SG_ID}),
+                    UNITS,
+                    API_ID);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -83,24 +96,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void StartUpdateTimer() {
-        long delay = 30000;
-        long periodToRepeat = 60 * 2000;
+        long delay = DELAY_UPDATE_IN_MILLISECONDS;
+        long periodToRepeat = DELAY_UPDATE_IN_MILLISECONDS;
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            viewModel.ReloadCityWeather(Arrays.asList(new Integer[]{HK_ID, SG_ID}));
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        } catch (InstantiationException e) {
-                            e.printStackTrace();
-                        }
+                runOnUiThread(() -> {
+                    try {
+                        viewModel.ReloadCityWeather(Arrays.asList(new Integer[]{HK_ID, SG_ID}),
+                                MainActivity.UNITS,
+                                MainActivity.API_ID);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    } catch (InstantiationException e) {
+                        e.printStackTrace();
                     }
                 });
             }
