@@ -2,7 +2,7 @@
     <string name="app_name">WeatherApp</string>
     <string name="history_label">City</string>
     <string-array name="cities_filter">
-        <item>Hong Kong SAR</item>
+        <item>Hong Kong Special Administrative Region</item>
         <item>Singapore</item>
     </string-array>
     <string name="temperature">Temperature</string>
