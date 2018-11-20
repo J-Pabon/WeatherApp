@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String UNITS = "metric";
     public static final String API_ID = "23d55f60ea93aa49fef603b8a64f1048";
-    
+
     public static final int DELAY_UPDATE_IN_MILLISECONDS = 60 * 1000;
 
     private WeatherViewModel viewModel;
