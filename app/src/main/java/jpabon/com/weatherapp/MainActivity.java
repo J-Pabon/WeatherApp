@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         
         LoadHistoricFragment();
 
-        RenameUpdateTimer();
+        StartUpdateTimer();
     }
 
     private void LoadHistoricFragment() {
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void RenameUpdateTimer() {
+    private void StartUpdateTimer() {
         long delay = 30000;
         long periodToRepeat = 60 * 2000;
         Timer timer = new Timer();
