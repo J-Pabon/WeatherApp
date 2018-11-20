@@ -40,25 +40,25 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel.getCityWeather().observe(this, weather -> {
             if (weather != null) {
-                UpdateFragments(weather);
+                UpdateCityFragments(weather);
             }
         });
         
-        SetHistoricFragment();
+        LoadHistoricFragment();
 
-        SetUpdateTimer();
+        RenameUpdateTimer();
     }
 
-    private void SetHistoricFragment() {
+    private void LoadHistoricFragment() {
         FragmentHistory fragment = new FragmentHistory();
 
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
-                .replace(R.id.history_container, fragment)
+                .add(R.id.history_container, fragment)
                 .commit();
     }
 
-    private void UpdateFragments(List<CityWeather> weather) {
+    private void UpdateCityFragments(List<CityWeather> weather) {
         FragmentManager fm = getSupportFragmentManager();
 
         for (CityWeather city_weather : weather) {
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void SetUpdateTimer() {
+    private void RenameUpdateTimer() {
         long delay = 30000;
         long periodToRepeat = 60 * 2000;
         Timer timer = new Timer();
