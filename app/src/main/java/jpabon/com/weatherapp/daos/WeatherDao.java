@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -21,5 +22,5 @@ public interface WeatherDao {
     LiveData<List<CityWeather>> load(List<Integer> city_ids);
 
     @Query("SELECT * FROM CityWeather WHERE id = :id LIMIT 5")
-    LiveData<List<CityWeather>> load_historic(int id);
+    List<CityWeather> load_historic(int id);
 }
