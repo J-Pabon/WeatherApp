@@ -6,5 +6,4 @@ them in a single activity app using fragments.
 
 It also allows to retrieve the last 5 registers for each city by selecting the city in a spinner.
 
-
-!(https://photos.app.goo.gl/Kfzhvtb6uXGtT2faA)
+![alt text](https://raw.githubusercontent.com/J-Pabon/WeatherApp/master/assets/WeatherApp_screenshot.png)
