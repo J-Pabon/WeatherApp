@@ -2,7 +2,9 @@ package jpabon.com.weatherapp;
 
 import android.os.Bundle;
 import android.os.Debug;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -16,6 +18,7 @@ import java.util.logging.Logger;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import jpabon.com.weatherapp.entities.CityWeather;
 import jpabon.com.weatherapp.viewmodels.WeatherViewModel;
 
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int DELAY_UPDATE_IN_MILLISECONDS = 60 * 1000;
 
     private WeatherViewModel viewModel;
+
+    private SwipeRefreshLayout swipeMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +61,36 @@ public class MainActivity extends AppCompatActivity {
                 UpdateCityFragments(weather);
             }
         });
+
+
+        swipeMain = (SwipeRefreshLayout) findViewById(R.id.swipe_main);
+        swipeMain.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            ReloadWeatherInfo();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        } catch (InstantiationException e) {
+                            e.printStackTrace();
+                        }
+
+                        swipeMain.setRefreshing(false);
+                    }
+                }, 5000);
+            }
+        });
         
         LoadHistoricFragment();
 
         StartUpdateTimer();
     }
+
 
     private void LoadHistoricFragment() {
         FragmentHistory fragment = new FragmentHistory();
@@ -104,9 +134,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 runOnUiThread(() -> {
                     try {
-                        viewModel.ReloadCityWeather(Arrays.asList(new Integer[]{HK_ID, SG_ID}),
-                                MainActivity.UNITS,
-                                MainActivity.API_ID);
+                        ReloadWeatherInfo();
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     } catch (UnsupportedEncodingException e) {
@@ -117,6 +145,14 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         }, delay, periodToRepeat);
+    }
+
+    private void ReloadWeatherInfo() throws IllegalAccessException, UnsupportedEncodingException, InstantiationException {
+        viewModel.ReloadCityWeather(Arrays.asList(new Integer[]{HK_ID, SG_ID}),
+                MainActivity.UNITS,
+                MainActivity.API_ID);
+
+        Toast.makeText(getApplicationContext(), "Reloading weather information...", Toast.LENGTH_SHORT).show();
     }
 
     @Override
